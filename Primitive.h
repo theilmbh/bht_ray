@@ -8,6 +8,8 @@ class Primitive
 {
 public:
   glm::mat4 xform;
+  glm::vec4 diffuse;
+  float reflectance;
 
   Primitive(){
     xform = glm::mat4(1.0);

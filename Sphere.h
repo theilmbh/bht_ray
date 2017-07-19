@@ -14,6 +14,7 @@ public:
   ~Sphere() {};
 
   float r;
+
   glm::vec4 C;
   IntersectInfo intersect(glm::vec4 P0, glm::vec4 P1);
 };
@@ -41,6 +42,9 @@ IntersectInfo Sphere::intersect(glm::vec4 P0, glm::vec4 P1)
   ret.t = t_intersect;
   ret.P = P0 + P1*t_intersect;
   ret.normal = glm::normalize(ret.P - C);
+  ret.ray = P1;
+  ret.reflectance = reflectance;
+  ret.diffuse = diffuse;
   return ret;
 }
 #endif
