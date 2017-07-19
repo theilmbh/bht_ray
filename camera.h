@@ -10,7 +10,7 @@
 class Camera
 {
 public:
-  float fov, aspect;
+  float fov, fovx, fovy, aspect;
   glm::vec3 pos;
   glm::vec3 up;
   glm::vec3 center;

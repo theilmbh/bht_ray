@@ -2,6 +2,7 @@
 #define RAYTRACER_H
 
 #include <glm/glm.hpp>
+#include <FreeImage.h>
 
 struct IntersectInfo {
   float t;
@@ -13,14 +14,16 @@ class RayTracer
 {
 
 public:
-  float *framebuffer;
+  unsigned char *framebuffer;
+  FIBITMAP* fi_buffer;
 
   RayTracer();
   ~RayTracer();
 
   void get_ray(int i, int j, glm::vec4& P1);
-  int intersect(IntersectInfo& ret, glm::vec4& P0, glm::vec4& P1);
-  glm::vec3 find_color(IntersectInfo inf);
+  int intersect(IntersectInfo& ret, glm::vec4 P0, glm::vec4 P1);
+  glm::vec4 find_color(IntersectInfo inf);
+  void ray_trace();
 };
 
 #endif

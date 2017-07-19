@@ -3,7 +3,9 @@
 
 Camera::Camera(float fov, glm::vec3 pos, glm::vec3 center, glm::vec3 up)
 {
+  this->fovy = fov;
   this->fov = fov;
+  this->fovx = fov;
   this->pos = pos;
   this->center = center;
   this->up = up;
