@@ -15,18 +15,27 @@ int main(int argc, char* argv[])
   FreeImage_Initialise();
   glm::vec4 P1 = glm::vec4(-1, 0, -3, 1);
   glm::vec4 P2 = glm::vec4(1, -0.5, -1, 1);
+  glm::vec4 P3 = glm::vec4(0.5, -1.25, -0.5, 1);
+
   Sphere s1(1.0, P1);
-  s1.reflectance = 0.25;
-  s1.diffuse = glm::vec4(0.5, 0.1, 0.5, 1);
+  s1.reflectance = 0.65;
+  s1.diffuse = 1.f*glm::vec4(0.5, 0.1, 0.1, 1);
+
   Sphere s2(0.15, P2);
   s2.reflectance = 0.25;
   s2.diffuse = glm::vec4(0.5, 0.1, 0.5, 1);
+
+  Sphere s3(0.4, P3);
+  s3.reflectance = (0.75);
+  s3.diffuse = glm::vec4(0.1, 0.5, 0.2, 1);
+
   scene.add_object(&s1);
   scene.add_object(&s2);
+  scene.add_object(&s3);
+
   Light l1, l2;
-  l1.pos = 3.f*(P2-P1) + P1 ;
   l1.pos = 5.f*glm::vec4(20, 0, 8,1);
-  l2.pos = 5.f*glm::vec4(-5, -5, 4, 1);
+  l2.pos = 1.f*glm::vec4(-3, -3, -8, 1);
   scene.add_light(&l1);
   scene.add_light(&l2);
 

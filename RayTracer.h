@@ -4,7 +4,7 @@
 #include <glm/glm.hpp>
 #include <FreeImage.h>
 
-#define MAX_REFLECT 6
+#define MAX_REFLECT 10
 
 struct IntersectInfo {
   float t;

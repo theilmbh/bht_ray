@@ -18,8 +18,8 @@ public:
   int num_objects;
   int num_lights;
 
-  int width = 1024;
-  int height = 1024;
+  int width = 2048;
+  int height = 2048;
 
   glm::vec4 ambient = glm::vec4(0.07, 0.05, 0.01, 1);
 
