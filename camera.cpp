@@ -1,15 +1,17 @@
 // Camera
 #include "camera.h"
 
-Camera::Camera(float fov, glm::vec3 pos, glm::vec3 center, glm::vec3 up)
+Camera::Camera(int resy, float fov, float aspect, glm::vec3 pos, glm::vec3 center, glm::vec3 up)
 {
   this->fovy = fov;
   this->fov = fov;
-  this->fovx = fov;
+  this->fovx = aspect*fov;
   this->pos = pos;
   this->center = center;
   this->up = up;
-  this->aspect = 1.0;
+  this->aspect = aspect;
+  height = resy;
+  width =
 }
 
 Camera::~Camera()

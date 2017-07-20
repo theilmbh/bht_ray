@@ -2,13 +2,14 @@ CC = g++
 CFLAGS = -g -DGL_GLEXT_PROTOTYPES
 INCFLAGS = -I./glm-0.9.2.7 -I./include/ -I/usr/X11R6/include -I/sw/include \
 		-I/usr/sww/include -I/usr/sww/pkg/Mesa/include
-LDFLAGS = -lfreeimage
+LDFLAGS = -lfreeimage -lm
 
 RM = /bin/rm -f
 all: raytrace
-raytrace: main.o camera.o globals.h Primitive.h RayTracer.o RayTracer.h Scene.h Sphere.h Scene.o Primitive.o
+raytrace: main.o camera.o globals.h Primitive.h RayTracer.o RayTracer.h \
+	Scene.h Sphere.h Scene.o Primitive.o Checkerboard.h
 	$(CC) $(CFLAGS) -o raytrace main.o camera.o RayTracer.o Scene.o Primitive.o $(INCFLAGS) $(LDFLAGS)
-main.o: main.cpp
+main.o: main.cpp Checkerboard.h
 	$(CC) $(CFLAGS) $(INCFLAGS) -c main.cpp
 camera.o: camera.cpp
 	$(CC) $(CFLAGS) $(INCFLAGS) -c camera.cpp

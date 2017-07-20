@@ -57,7 +57,7 @@ glm::vec4 RayTracer::find_color(IntersectInfo inf)
 
   glm::vec3 eyedirn = glm::normalize(cam.pos - glm::vec3(P0));
   // Ambient
-  color += scene.ambient;
+  //color += scene.ambient;
 
   // Shadow Ray
   IntersectInfo dummy;

@@ -18,10 +18,10 @@ public:
   int num_objects;
   int num_lights;
 
-  int width = 2048;
-  int height = 2048;
+  int width = 4096;
+  int height = 4096;
 
-  glm::vec4 ambient = glm::vec4(0.07, 0.05, 0.01, 1);
+  glm::vec4 ambient = glm::vec4(0.07, 0.07, 0.07, 1);
 
   Primitive *objects[MAX_OBJECTS];
   Light *lights[MAX_LIGHTS];
