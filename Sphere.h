@@ -43,8 +43,9 @@ IntersectInfo Sphere::intersect(glm::vec4 P0, glm::vec4 P1)
   ret.P = P0 + P1*t_intersect;
   ret.normal = glm::normalize(ret.P - C);
   ret.ray = P1;
-  ret.reflectance = reflectance;
-  ret.diffuse = diffuse;
+  //ret.material.reflectance = material.reflectance;
+  //ret.material.diffuse = material.diffuse;
+  ret.material = material;
   return ret;
 }
 #endif

@@ -3,15 +3,16 @@
 
 Camera::Camera(int resy, float fov, float aspect, glm::vec3 pos, glm::vec3 center, glm::vec3 up)
 {
-  this->fovy = fov;
-  this->fov = fov;
-  this->fovx = aspect*fov;
+  this->fovy = deg_to_rad*fov;
+  this->fov = deg_to_rad*fov;
+  this->fovx = aspect*deg_to_rad*fov;
   this->pos = pos;
   this->center = center;
   this->up = up;
   this->aspect = aspect;
   height = resy;
-  width =
+  width = (int)(aspect*height);
+  cam_to_world = glm::inverse(glm::lookAt(pos, center, up));
 }
 
 Camera::~Camera()

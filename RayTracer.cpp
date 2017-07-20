@@ -5,11 +5,13 @@
 #include <iostream>
 #include <FreeImage.h>
 
+glm::vec4 SummerSky = glm::vec4(0.22, 0.69, 0.87, 1);
+
 RayTracer::RayTracer()
 {
-  framebuffer = new unsigned char[scene.height*scene.width*3];
-  fi_buffer = FreeImage_Allocate(scene.width, scene.height, 24);
-  std::cout << scene.width << "\n";
+  framebuffer = new unsigned char[cam.height*cam.width*3];
+  fi_buffer = FreeImage_Allocate(cam.width, cam.height, 24);
+  //std::cout << cam.width << cam.height << "\n";
 }
 
 RayTracer::~RayTracer()
@@ -19,12 +21,11 @@ RayTracer::~RayTracer()
 
 void RayTracer::get_ray(int i, int j, glm::vec4& P1)
 {
-  int height = scene.height;
-  int width = scene.width;
+  int height = cam.height;
+  int width = cam.width;
   float x = glm::tan(cam.fovx / 2) * ((float)i - width/2)/(width/2);
-  float y = glm::tan(cam.fovy / 2) * (height/2 - (float)j) / (height/2);
-  //std::cout << "x: " << i << " y: " << j << "\n";
-  P1 = glm::normalize(glm::vec4(x, y, -1, 0)); // Need to transform to world coords
+  float y = glm::tan(cam.fovy / 2) * ((float)j - height/2) / (height/2);
+  P1 = cam.cam_to_world*glm::normalize(glm::vec4(x, y, -1, 0)); // Need to transform to world coords
 
 }
 
@@ -40,6 +41,7 @@ int RayTracer::intersect(IntersectInfo& ret, glm::vec4 P0, glm::vec4 P1)
     //std::cout << inf.t << "\n";
     if(inf.t < mint && inf.t > 0)
     {
+      mint = inf.t;
       //std::cout << "Intersect! " << inf.t << "\n";
       has_intersect = 1;
       ret = inf;
@@ -56,6 +58,7 @@ glm::vec4 RayTracer::find_color(IntersectInfo inf)
   float eps = 0.0001;
 
   glm::vec3 eyedirn = glm::normalize(cam.pos - glm::vec3(P0));
+  glm::vec3 N = glm::normalize(glm::vec3(inf.normal));
   // Ambient
   //color += scene.ambient;
 
@@ -65,30 +68,30 @@ glm::vec4 RayTracer::find_color(IntersectInfo inf)
   {
     glm::vec4 PL = (scene.lights[k]->pos - P0);
     glm::vec3 lightdir = glm::normalize(glm::vec3(PL));
-    glm::vec3 N = glm::normalize(glm::vec3(inf.normal));
 
     if(!intersect(dummy, P0+eps*PL, PL))
     {
       // Get lighting
-
       glm::vec3 halfv = glm::normalize(lightdir + eyedirn);
-      color += inf.diffuse * glm::max(glm::dot(lightdir, N), 0.f);
-      float s =  glm::pow(glm::max(glm::dot(halfv, N), 0.f), 1000);
-      color += s*glm::vec4(1,1,1,1);
+      color += inf.material.diffuse * glm::max(glm::dot(lightdir, N), 0.f);
+      float shiny = inf.material.shininess;
+      if(shiny > 0)
+      {
 
+        float s = glm::pow(glm::max(glm::dot(halfv, N), 0.f), shiny);
+        color += s*glm::vec4(1,1,1,1);
+      }
     }
+  }
 
-    // Reflectance
-    float reflectance = 0.5;
-    glm::vec3 old_ray = glm::normalize(glm::vec3(inf.ray));
-    if(reflect_depth < MAX_REFLECT)
-    {
-      reflect_depth++;
-      //std::cout << reflect_depth << "\n";
-      P1 = glm::vec4(glm::normalize(old_ray - 2.f*glm::dot(old_ray, N)*N), 0);
-      color += inf.reflectance*do_recursive_ray(P0, P1);
-    }
-
+  // Reflectance
+  glm::vec3 old_ray = glm::normalize(glm::vec3(inf.ray));
+  if(reflect_depth < MAX_REFLECT)
+  {
+    reflect_depth++;
+    //std::cout << reflect_depth << "\n";
+    P1 = glm::vec4(glm::normalize(old_ray - 2.f*glm::dot(old_ray, N)*N), 0);
+    color += inf.material.reflectance*do_recursive_ray(P0, P1);
   }
   return color;
 }
@@ -100,6 +103,11 @@ glm::vec4 RayTracer::do_recursive_ray(glm::vec4 P0, glm::vec4 P1)
   if(intersect(d, P0, P1))
   {
     color = find_color(d);
+  }
+  else
+  {
+    color = SummerSky;
+    color = glm::vec4(0,0,0,1);
   }
   return color;
 }
@@ -113,9 +121,9 @@ void RayTracer::ray_trace()
   IntersectInfo d;
 
 
-  for(int i = 0; i<scene.width; i++)
+  for(int i = 0; i<cam.width; i++)
   {
-    for(int j=0; j<scene.height; j++)
+    for(int j=0; j<cam.height; j++)
     {
       reflect_depth = 0;
       get_ray(i, j, ray);

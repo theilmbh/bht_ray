@@ -17,12 +17,7 @@ class Scene
 public:
   int num_objects;
   int num_lights;
-
-  int width = 4096;
-  int height = 4096;
-
   glm::vec4 ambient = glm::vec4(0.07, 0.07, 0.07, 1);
-
   Primitive *objects[MAX_OBJECTS];
   Light *lights[MAX_LIGHTS];
   void add_object(Primitive *obj);

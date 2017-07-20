@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS = -g -DGL_GLEXT_PROTOTYPES
+CFLAGS = -g -DGL_GLEXT_PROTOTYPES --std=c++11
 INCFLAGS = -I./glm-0.9.2.7 -I./include/ -I/usr/X11R6/include -I/sw/include \
 		-I/usr/sww/include -I/usr/sww/pkg/Mesa/include
 LDFLAGS = -lfreeimage -lm
