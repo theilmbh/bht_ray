@@ -8,7 +8,7 @@
 #include <FreeImage.h>
 #include "Checkerboard.h"
 
-Camera cam(8192, 60, 1.0, glm::vec3(0, 3, 8), glm::vec3(0,0.75,0), glm::vec3(0,1,0));
+Camera cam(6000, 60, 1.0, glm::vec3(0, 3, 8), glm::vec3(0,1.0,0), glm::vec3(0,1,0));
 Scene scene;
 
 int main(int argc, char* argv[])
@@ -30,7 +30,7 @@ int main(int argc, char* argv[])
   s1.material.shininess = 100.f;
 
   Sphere s2(0.15, P2);
-  s2.material.reflectance = 0.005;
+  s2.material.reflectance = 0.45;
   s2.material.diffuse = glm::vec4(0.5, 0.1, 0.5, 1);
   s2.material.shininess = 100.f;
 
@@ -47,7 +47,7 @@ int main(int argc, char* argv[])
   scene.add_object(&s1);
   scene.add_object(&s2);
   scene.add_object(&s3);
-  scene.add_object(&s4);
+  //scene.add_object(&s4);
   Light l1, l2;
   l1.pos = 5.f*glm::vec4(20, 7, 8,1);
   l2.pos = 1.f*glm::vec4(-3, 7, -8, 1);
